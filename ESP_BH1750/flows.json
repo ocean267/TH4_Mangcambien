@@ -1,0 +1,331 @@
+[
+  {
+    "id": "46c740378cd3d37a",
+    "type": "tab",
+    "label": "HIVEMQ-3",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "5df21b621a6f8629",
+    "type": "mqtt in",
+    "z": "46c740378cd3d37a",
+    "name": "",
+    "topic": "esp32/bh1750",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "ed96e13f2437c5eb",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 260,
+    "y": 120,
+    "wires": [
+      [
+        "ae61791d1e154a99",
+        "f5293b6d9a0ccc1d"
+      ]
+    ]
+  },
+  {
+    "id": "ae61791d1e154a99",
+    "type": "debug",
+    "z": "46c740378cd3d37a",
+    "name": "debug 1",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 460,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "f5293b6d9a0ccc1d",
+    "type": "function",
+    "z": "46c740378cd3d37a",
+    "name": "function extract lux",
+    "func": "var lux = msg.payload.lux;\nmsg.payload = lux;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 450,
+    "y": 160,
+    "wires": [
+      [
+        "7630957dc7bdb79b",
+        "0fa94cbb43bcef1c"
+      ]
+    ]
+  },
+  {
+    "id": "7630957dc7bdb79b",
+    "type": "ui_gauge",
+    "z": "46c740378cd3d37a",
+    "name": "",
+    "group": "a56f8967af78bfb3",
+    "order": 1,
+    "width": 4,
+    "height": 4,
+    "gtype": "gage",
+    "title": "Ánh sáng",
+    "label": "lux",
+    "format": "{{value}}",
+    "min": 0,
+    "max": "100000",
+    "colors": [
+      "#00b500",
+      "#e6e600",
+      "#ca3838"
+    ],
+    "seg1": "",
+    "seg2": "",
+    "diff": false,
+    "className": "",
+    "x": 640,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "0fa94cbb43bcef1c",
+    "type": "ui_chart",
+    "z": "46c740378cd3d37a",
+    "name": "",
+    "group": "a56f8967af78bfb3",
+    "order": 2,
+    "width": 8,
+    "height": 4,
+    "label": "Đồ thị ánh sáng",
+    "chartType": "line",
+    "legend": "false",
+    "xformat": "HH:mm:ss",
+    "interpolate": "linear",
+    "nodata": "",
+    "dot": true,
+    "ymin": "",
+    "ymax": "",
+    "removeOlder": 1,
+    "removeOlderPoints": "",
+    "removeOlderUnit": "3600",
+    "cutout": 0,
+    "useOneColor": false,
+    "useUTC": false,
+    "colors": [
+      "#1f77b4"
+    ],
+    "outputs": 1,
+    "useDifferentColor": false,
+    "className": "",
+    "x": 660,
+    "y": 200,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "e4afebe2133fb389",
+    "type": "mqtt out",
+    "z": "46c740378cd3d37a",
+    "name": "esp32/client",
+    "topic": "esp32/client",
+    "qos": "0",
+    "retain": "",
+    "broker": "ed96e13f2437c5eb",
+    "x": 660,
+    "y": 460,
+    "wires": []
+  },
+  {
+    "id": "3142ca878fc5d7f9",
+    "type": "function",
+    "z": "46c740378cd3d37a",
+    "name": "function 3",
+    "func": "var input = msg.payload;\nmsg.payload = input?\"{\\\"out1\\\":1}\":\"{\\\"out1\\\":0}\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 420,
+    "y": 460,
+    "wires": [
+      [
+        "e4afebe2133fb389"
+      ]
+    ]
+  },
+  {
+    "id": "660fe08bc278d102",
+    "type": "ui_switch",
+    "z": "46c740378cd3d37a",
+    "name": "Button1",
+    "label": "Switch1",
+    "group": "734b5b45ad3ff782",
+    "order": 1,
+    "width": 2,
+    "height": 2,
+    "passthru": true,
+    "topic": "",
+    "onvalue": "true",
+    "onvalueType": "bool",
+    "offvalue": "false",
+    "offvalueType": "bool",
+    "x": 240,
+    "y": 460,
+    "wires": [
+      [
+        "3142ca878fc5d7f9"
+      ]
+    ]
+  },
+  {
+    "id": "33d88c7d384142a4",
+    "type": "ui_led",
+    "z": "46c740378cd3d37a",
+    "order": 2,
+    "group": "734b5b45ad3ff782",
+    "width": 2,
+    "height": 2,
+    "label": "Out1",
+    "labelPlacement": "left",
+    "labelAlignment": "right",
+    "colorForValue": [
+      {
+        "color": "#808080",
+        "value": "false",
+        "valueType": "bool"
+      },
+      {
+        "color": "#008000",
+        "value": "true",
+        "valueType": "bool"
+      }
+    ],
+    "shape": "circle",
+    "showGlow": true,
+    "name": "Out1",
+    "x": 630,
+    "y": 460,
+    "wires": []
+  },
+  {
+    "id": "spacer-control-1",
+    "type": "ui_spacer",
+    "z": "46c740378cd3d37a",
+    "name": "",
+    "group": "734b5b45ad3ff782",
+    "order": 3,
+    "width": 8,
+    "height": 1,
+    "x": 400,
+    "y": 520,
+    "wires": []
+  },
+  {
+    "id": "fca7c349bb805470",
+    "type": "function",
+    "z": "46c740378cd3d37a",
+    "name": "function 4",
+    "func": "var input = msg.payload;\nmsg.payload = input?\"{\\\"out2\\\":1}\":\"{\\\"out2\\\":0}\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 420,
+    "y": 600,
+    "wires": [
+      [
+        "e4afebe2133fb389"
+      ]
+    ]
+  },
+  {
+    "id": "6d4f0508a6c18f76",
+    "type": "ui_switch",
+    "z": "46c740378cd3d37a",
+    "name": "Button2",
+    "label": "Switch2",
+    "group": "734b5b45ad3ff782",
+    "order": 4,
+    "width": 2,
+    "height": 2,
+    "passthru": true,
+    "onvalue": "true",
+    "onvalueType": "bool",
+    "offvalue": "false",
+    "offvalueType": "bool",
+    "x": 240,
+    "y": 600,
+    "wires": [
+      [
+        "fca7c349bb805470"
+      ]
+    ]
+  },
+  {
+    "id": "7f2c8c66bdd5f997",
+    "type": "ui_led",
+    "z": "46c740378cd3d37a",
+    "order": 5,
+    "group": "734b5b45ad3ff782",
+    "width": 2,
+    "height": 2,
+    "label": "Out2",
+    "labelPlacement": "left",
+    "labelAlignment": "right",
+    "colorForValue": [
+      {
+        "color": "#808080",
+        "value": "false",
+        "valueType": "bool"
+      },
+      {
+        "color": "#ffff00",
+        "value": "true",
+        "valueType": "bool"
+      }
+    ],
+    "shape": "circle",
+    "showGlow": true,
+    "name": "Out2",
+    "x": 630,
+    "y": 600,
+    "wires": []
+  },
+  {
+    "id": "6a356a51e9649788",
+    "type": "mqtt in",
+    "z": "46c740378cd3d37a",
+    "name": "",
+    "topic": "esp8266/out",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "ed96e13f2437c5eb",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 250,
+    "y": 680,
+    "wires": [
+      [
+        "654e4c10fb6555e0",
+        "86c5aecfaf994657"
+      ]
+    ]
+  },
+  {
+    "id": "654e4c10fb6555e0",
+    "type": "function",
+    "z": "46c740378cd3d37a",
+    "name": "function 5",
+    "func": "msg.payload = (msg.payload.out1===1);\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 440,
+    "y": 680,
+    "wires": [[]]
+  }
+]
